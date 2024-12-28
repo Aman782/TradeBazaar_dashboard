@@ -5,8 +5,8 @@ import RightPanel from './components/rightSection/RightPanel'
 const Wrapper = () => {
   return (
     <>
-        <div className='container-fluid'>
-            <div className='row'>
+        <div className='container-fluid py-4 fontstyle' style={{backgroundColor:'rgb(239, 229, 229)'}}>
+            <div className='row '>
                <div className='col-md-4'>
                 <LeftPanel />
                </div>

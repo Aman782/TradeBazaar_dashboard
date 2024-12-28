@@ -13,3 +13,14 @@ body{
   font-weight: 500;
   font-style: normal;
 }
+
+/* In your CSS file (e.g., App.css or Dashboard.css) */
+.chart-container {
+  width: 100%;
+  height: 400px; /* Or any other height you prefer */
+}
+
+
+.new{
+  background-color: rgb(239, 229, 229);
+}

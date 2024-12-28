@@ -16,9 +16,10 @@ const Watchlist = () => {
   ];
   return (
     <>
-      <div className="container-fluid p-3 fontstyle">
+      <div className="container-fluid fontstyle">
         <div className="row">
           <div className="col-md-12">
+          <p className="fs-2 fw-semibold text-center">Watchlist</p>
             <div className="d-flex justify-content-around align-items-center">
               <p className="fs-6 fw-semibold">NIFTY50</p>
               <p className="fs-6 fw-semibold">SENSEX</p>
