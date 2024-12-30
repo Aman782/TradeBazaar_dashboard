@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
@@ -20,7 +21,7 @@ const Navbar = () => {
 
                 <a className='fs-5 text-decoration-none text-white'>Positions <i className="fa-solid fa-map-pin"></i></a>
                 
-                <a className='fs-5 text-decoration-none text-white'>Funds <i className="fa-regular fa-money-bill-1"></i></a>
+                <a href='/funds' className='fs-5 text-decoration-none text-white'>Funds <i className="fa-regular fa-money-bill-1"></i></a>
             </div>
         </div>
       </div>
