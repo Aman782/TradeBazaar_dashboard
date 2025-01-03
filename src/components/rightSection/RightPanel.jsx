@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Dashboard from './Dashboard';
 import { FaUser, FaWallet } from 'react-icons/fa';
+import axios from 'axios';
 
 const RightPanel = () => {
   const [searchText, setSearchText] = useState('');
   const [inputText, setInputText] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
-  const [qty, setQty] = useState(''); // Quantity of stock
-  const [price, setPrice] = useState(''); // Price of stock
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [qty, setQty] = useState('');
+  const [price, setPrice] = useState(0); // Price fetched from API
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -15,14 +16,29 @@ const RightPanel = () => {
   };
 
   const toggleModal = () => {
+    if (!price) {
+      alert('Please wait, fetching stock price...');
+      return;
+    }
     setIsModalOpen(!isModalOpen);
     setQty('');
-    setPrice('');
   };
+
+  const handleOnPurchase = async()=>{
+    try {
+      const res = await axios.post('http://localhost:8080/users/buy-stock', {searchText, qty, price}, {withCredentials: true});
+      console.log(res);
+      
+    } catch (error) {
+      console.log(error);
+    }
+     
+  }
 
   const handleProceed = () => {
     if (qty && price) {
       alert(`You are buying ${qty} stocks at ₹${price} each.`);
+      handleOnPurchase();
       toggleModal(); // Close the modal after proceeding
     } else {
       alert('Please fill in both fields!');
@@ -99,8 +115,8 @@ const RightPanel = () => {
                 type='number'
                 className='form-control'
                 value={price}
-                onChange={(e) => setPrice(e.target.value)}
                 min='1'
+                readOnly
               />
             </div>
             <div className='d-flex justify-content-end'>

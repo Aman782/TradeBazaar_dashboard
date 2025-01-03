@@ -25,30 +25,25 @@ ChartJS.register(
 const Dashboard = ({ searchText, setPrice }) => {
   const [chartData, setChartData] = useState({});
   const chartRef = useRef(null);
-  const [count, setCount] = useState(0);
 
-  
-  // Fetching data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
-        console.log("Getting data in dashboard component: ", searchText);
-        // const url =
-        //   `https://api.marketstack.com/v1/eod?access_key=701f8701ff102c0b247db9b8bd3027a6&symbols=${searchText}.XNSE`;
+        if (!searchText) return;
+
+        //  const url =
+        //   `https://api.marketstack.com/v1/eod?access_key=b924e4c619206dfcd5a6e075d29da9e6&symbols=${searchText}.XNSE`;
         // const response = await fetch(url);
         // const result = await response.json();
-        // console.log(result.data.close);
+        // console.log(result.data[0].close);
 
-        setPrice(count);
+        // Set the latest stock price
+        setPrice(result.data[0].close);
 
-        setCount((pre)=> pre+1);
+        // Prepare chart data
+        const labels = result.data.map((item) => item.date);
+        const data = result.data.map((item) => item.close);
 
-        // Assuming the response contains 'data' with 'date' and 'close' price
-        const labels = result.data.map((item) => item.date); // Extract dates for the x-axis
-        const data = result.data.map((item) => item.close); // Extract close prices for the y-axis
-
-        // Set the chart data
         const dataForChart = {
           labels: labels,
           datasets: [
@@ -68,7 +63,7 @@ const Dashboard = ({ searchText, setPrice }) => {
     };
 
     fetchData();
-  }, [searchText]);
+  }, [searchText, setPrice]);
 
   return (
     <div className="container-fluid fontstyle">
@@ -79,16 +74,6 @@ const Dashboard = ({ searchText, setPrice }) => {
           )}
         </div>
       </div>
-{/* 
-      <div className="row d-flex justify-content-center align-items-center p-5">
-        <div className="col-md-2">
-           <button className="btn btn-lg btn-primary">Buy</button>
-        </div>  
-
-        <div className="col-md-2">
-          <button className="btn btn-lg btn-dark">Sell</button>
-        </div>
-      </div> */}
     </div>
   );
 };
