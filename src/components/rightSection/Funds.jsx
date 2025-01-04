@@ -1,21 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Funds.css";
+import axios from "axios";
 
 const Funds = () => {
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState();
   const [paymentMethod, setPaymentMethod] = useState("Credit Card");
-  const [balance, setBalance] = useState(5000); // Example starting balance
+  const [balance, setBalance] = useState(0); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (amount && paymentMethod) {
       const newBalance = balance + parseFloat(amount);
-      setBalance(newBalance); // Update balance after adding funds
+      setBalance(newBalance);
+      addFunds(newBalance);
       alert(`Successfully added ₹${amount} via ${paymentMethod}`);
+      setAmount(0);
     } else {
       alert("Please fill out all the fields.");
     }
   };
+
+  const addFunds = async(updatedBalance)=>{
+    try {
+      const resp = await axios.post('http://localhost:8080/users/add-funds', {updatedBalance}, {withCredentials: true});
+
+      console.log("New Balance: ", updatedBalance);
+      console.log("resp: ", resp);
+    } catch (error) {
+      console.log("Invalid Access or Request!", error);
+    }
+  }
+
 
   return (
     <div className="container-fluid p-5 fontstyle">
@@ -40,6 +55,8 @@ const Funds = () => {
                   id="amount"
                   className="form-control"
                   value={amount}
+                  min={1000}
+                  max={100000}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="Enter amount"
                   required

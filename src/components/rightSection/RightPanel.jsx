@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dashboard from './Dashboard';
 import { FaUser, FaWallet } from 'react-icons/fa';
 import axios from 'axios';
@@ -9,6 +9,22 @@ const RightPanel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [qty, setQty] = useState('');
   const [price, setPrice] = useState(0); // Price fetched from API
+  const [currAvailableMargin, setAvailableMargin] = useState(0);
+
+  useEffect(()=>{
+    const fetchMargin = async()=>{
+      try {     
+        const resp = await axios.post('http://localhost:8080/users/get-margin', {});
+        
+        console.log(resp);
+        setAvailableMargin(resp.margin);
+      } catch (error) {
+        console.log(error);
+      }
+    } 
+
+    fetchMargin();
+  }, [])
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +77,7 @@ const RightPanel = () => {
             <h5 className='fw-bold text-primary mb-3'>
               <FaWallet className='me-2' /> Total Equity
             </h5>
-            <p className='text-muted mb-1'>Margin Available: <span className='fw-bold text-dark'>3.74k</span></p>
+            <p className='text-muted mb-1'>Margin Available: <span className='fw-bold text-dark'>{currAvailableMargin}</span></p>
             <p className='text-muted'>Opening Balance: <span className='fw-bold text-dark'>0</span></p>
           </div>
         </div>
