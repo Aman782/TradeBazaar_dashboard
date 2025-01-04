@@ -5,6 +5,7 @@ import Footer from './Footer';
 const App = () => {
   return (
     <>
+      
       <Navbar />
       <Wrapper />
       <Footer />

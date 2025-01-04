@@ -10,14 +10,17 @@ const RightPanel = () => {
   const [qty, setQty] = useState('');
   const [price, setPrice] = useState(0); // Price fetched from API
   const [currAvailableMargin, setAvailableMargin] = useState(0);
+  const [username, setUsername] = useState('');
 
   useEffect(()=>{
     const fetchMargin = async()=>{
       try {     
-        const resp = await axios.post('http://localhost:8080/users/get-margin', {});
+        const resp = await axios.get('http://localhost:8080/users/get-margin', { withCredentials: true });
         
         console.log(resp);
-        setAvailableMargin(resp.margin);
+        setAvailableMargin(resp.data.margin);
+        // setFunds(resp.data.margin);
+        setUsername(resp.data.username);
       } catch (error) {
         console.log(error);
       }
@@ -68,7 +71,7 @@ const RightPanel = () => {
         <div className='col-md-6'>
           <div className='d-flex align-items-center'>
             <FaUser size={36} className='me-3 text-primary' />
-            <p className='fs-3 mb-0 fw-bold text-dark'>Hi, User</p>
+            <p className='fs-3 mb-0 fw-bold text-dark'>Hi, {username}</p>
           </div>
         </div>
 

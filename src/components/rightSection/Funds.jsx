@@ -5,37 +5,51 @@ import axios from "axios";
 const Funds = () => {
   const [amount, setAmount] = useState();
   const [paymentMethod, setPaymentMethod] = useState("Credit Card");
-  const [balance, setBalance] = useState(0); 
+  const [balance, setBalance] = useState(0);
+
+  // Fetching current balance from the backend when component mounts
+  useEffect(() => {
+    const getBalance = async () => {
+      try {
+        const res = await axios.get('http://localhost:8080/users/get-margin', { withCredentials: true });
+        console.log("Current balance:", res.data.margin);
+        setBalance(res.data.margin);  
+      } catch (error) {
+        console.log("Error fetching balance", error);
+      }
+    };
+
+    getBalance();
+  }, []); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (amount && paymentMethod) {
-      const newBalance = balance + parseFloat(amount);
-      setBalance(newBalance);
-      addFunds(newBalance);
+      const newBalance = balance + parseFloat(amount);  
+      setBalance(newBalance);  
+      addFunds(newBalance);  
       alert(`Successfully added ₹${amount} via ${paymentMethod}`);
-      setAmount(0);
+      setAmount(0); 
     } else {
       alert("Please fill out all the fields.");
     }
   };
 
-  const addFunds = async(updatedBalance)=>{
+  const addFunds = async (updatedBalance) => {
     try {
-      const resp = await axios.post('http://localhost:8080/users/add-funds', {updatedBalance}, {withCredentials: true});
-
-      console.log("New Balance: ", updatedBalance);
-      console.log("resp: ", resp);
+      // Sending the updated balance to the server to save it
+      const resp = await axios.post('http://localhost:8080/users/add-funds', { updatedBalance }, { withCredentials: true });
+      console.log("New Balance Saved: ", updatedBalance);
+      console.log("Response from backend: ", resp);
     } catch (error) {
-      console.log("Invalid Access or Request!", error);
+      console.log("Error in adding funds", error);
     }
-  }
-
+  };
 
   return (
     <div className="container-fluid p-5 fontstyle">
       <div className="row justify-content-center">
-        <div className="col-md-9"> {/* Takes 7 out of 12 columns on medium screens */}
+        <div className="col-md-9">
           <div className="funds-container p-4 border shadow-sm rounded bg-white" style={{ maxWidth: "600px", width: "100%" }}>
             <h2 className="text-center mb-4 text-primary">Add Funds</h2>
             
@@ -43,7 +57,7 @@ const Funds = () => {
             <div className="current-balance mb-4">
               <h4>
                 <i className="fa fa-wallet" style={{ marginRight: "8px", fontSize: "1.5rem" }}></i>
-                Current Balance: ₹{balance.toFixed(2)}
+                Current Balance: ₹{balance}
               </h4>
             </div>
 
