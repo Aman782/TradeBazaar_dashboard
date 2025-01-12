@@ -10,7 +10,7 @@ const Orders = () => {
       try {
         let user = await axios.get('http://localhost:8080/users/get-margin', { withCredentials: true });
         console.log(user);
-        setUserInfo(user.data.holdings);
+        setUserInfo(user.data.holdings.reverse());
       } catch (error) {
         console.error("Error fetching user info:", error);
       }

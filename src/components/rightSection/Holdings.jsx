@@ -1,9 +1,14 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Orders.css'; // For custom styling
 
 const Holdings = () => {
   const [holdingsInfo, setHoldingsInfo] = useState([]);
+  // const [isPopUp, setPopUp] = useState(false);
+  const [stockPrice, setStockPrice] = useState(0);
+  const [qty, setQty] = useState(0);
+  const [stockName, setStockName] = useState('');
+
 
   useEffect(() => {
     const fetchHoldingsInfo = async () => {
@@ -20,9 +25,50 @@ const Holdings = () => {
   }, []);
 
   const handleSell = (stockName) => {
-    alert(`Selling ${stockName}`);
-    // Add sell logic here, such as making an API call
+    try {
+      alert(`Selling ${stockName}`);
+      setStockName(stockName);
+      handleFetchPrice(stockName);
+    } catch (error) {
+      alert("Error while fetching....", error);
+    } 
   };
+
+  const handleFetchPrice = async(stockName) =>{
+     try {
+       const url =
+           `https://api.marketstack.com/v1/eod?access_key=b924e4c619206dfcd5a6e075d29da9e6&symbols=${stockName}.XNSE`;
+         const response = await fetch(url);
+         const result = await response.json();
+         console.log(result.data[0].close);
+ 
+         setStockPrice(result.data[0].close);
+     } catch (error) {
+       console.log("API Fetch Failed!", error);
+     }
+  }
+
+  const updateHoldings = async(e) =>{
+    e.preventDefault();
+    try {
+      let selledStockMargin = qty * stockPrice;
+  
+      const data = {
+        selledStockMargin,
+        stockName,
+        qty,
+      }
+  
+      const updatedUserInfo = await axios.post('http://localhost:8080/users/stock-sell', data, {withCredentials: true});
+  
+      console.log(updatedUserInfo);
+      setQty(0);
+      setStockPrice(0);
+    } catch (error) {
+      console.log("Error In updateHoldings!", error);
+    }
+  }
+
 
   return (
     <div className='container mt-4'>
@@ -45,6 +91,38 @@ const Holdings = () => {
           </div>
         ))}
       </div>
+      
+
+     
+
+      {/* //popup logic  */}
+      
+      <div className='container-fluid p-3'> 
+         <div className='row'>
+            <div className='col-md-12'>
+                 <form onSubmit={updateHoldings}>
+                    <div className='m-2'>
+                      <label className='form-label'>Quantity of Stock</label>
+                      <input className='form-control' placeholder='enter qty' onChange={(e)=> setQty(e.target.value)}></input>
+                    </div>
+
+                    <div className='m-2'>
+                      <label className="form-label">Price</label>
+                      <input className='form-control' value={stockPrice} readOnly></input>
+                    </div>
+
+                    <div className='m-2'>
+                      <button className='btn btn-dark'>Proceed To Sell</button>
+                    </div>
+                  
+                 </form>
+            </div>
+         </div>
+      </div>
+
+
+
+
     </div>
   );
 };

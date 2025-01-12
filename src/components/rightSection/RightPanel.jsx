@@ -71,7 +71,7 @@ const RightPanel = () => {
         <div className='col-md-6'>
           <div className='d-flex align-items-center'>
             <FaUser size={36} className='me-3 text-primary' />
-            <p className='fs-3 mb-0 fw-bold text-dark'>Hi, {username}</p>
+            <p className='fs-3 mb-0 fw-bold text-dark'>Hi, {username || "User"}</p>
           </div>
         </div>
 
@@ -149,6 +149,8 @@ const RightPanel = () => {
           </div>
         </div>
       )}
+
+      
     </div>
   );
 };
