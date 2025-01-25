@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import LeftPanel from './components/leftSection/leftPanel'
+import LeftPanel from './components/leftSection/LeftPanel'
 import RightPanel from './components/rightSection/RightPanel'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Funds from './components/rightSection/Funds'
