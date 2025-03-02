@@ -36,15 +36,20 @@ const Holdings = () => {
     try {
       const url = `https://api.marketstack.com/v2/eod?access_key=38778fd04543532b459d5770ed5f7983&symbols=${stockName}.XNSE`;
       const response = await axios.get(url);
-      console.log(response.data);
-      console.log(response.data.data[0].close);
-
-      setStockPrice(response.data.data[0].close);
+  
+      console.log(response.data); // Debugging: Check the API response structure
+  
+      if (response.data.data && response.data.data.length > 0) {
+        console.log(response.data.data[0].close);
+        setStockPrice(response.data.data[0].close);
+      } else {
+        console.log("No stock data available!");
+      }
     } catch (error) {
       console.log("API Fetch Failed!", error);
     }
   };
-
+  
   const updateHoldings = async (e) => {
     e.preventDefault();
     try {
