@@ -36,7 +36,7 @@ const Holdings = () => {
   const handleFetchPrice = async(stockName) =>{
      try {
        const url =
-           `https://api.marketstack.com/v1/eod?access_key=38778fd04543532b459d5770ed5f7983&symbols=${stockName}.XNSE`;
+           `https://api.marketstack.com/v2/eod?access_key=38778fd04543532b459d5770ed5f7983&symbols=${stockName}.XNSE`;
          const response = await fetch(url);
          const result = await response.json();
          console.log(result);
