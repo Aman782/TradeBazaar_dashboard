@@ -4,7 +4,6 @@ import './Orders.css'; // For custom styling
 
 const Holdings = () => {
   const [holdingsInfo, setHoldingsInfo] = useState([]);
-  // const [isPopUp, setPopUp] = useState(false);
   const [stockPrice, setStockPrice] = useState(0);
   const [qty, setQty] = useState(0);
   const [stockName, setStockName] = useState('');
@@ -13,7 +12,7 @@ const Holdings = () => {
   useEffect(() => {
     const fetchHoldingsInfo = async () => {
       try {
-        let response = await axios.get('http://localhost:8080/users/get-margin', { withCredentials: true });
+        let response = await axios.get('https://trade-bazaar-backend.vercel.app/users/get-margin', { withCredentials: true });
         console.log(response);
         setHoldingsInfo(response.data.holdings);
       } catch (error) {
@@ -59,7 +58,7 @@ const Holdings = () => {
         qty,
       }
   
-      const updatedUserInfo = await axios.post('http://localhost:8080/users/stock-sell', data, {withCredentials: true});
+      const updatedUserInfo = await axios.post('https://trade-bazaar-backend.vercel.app/users/stock-sell', data, {withCredentials: true});
   
       console.log(updatedUserInfo);
       setQty(0);

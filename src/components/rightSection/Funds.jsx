@@ -11,7 +11,7 @@ const Funds = () => {
   useEffect(() => {
     const getBalance = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/users/get-margin', { withCredentials: true });
+        const res = await axios.get('https://trade-bazaar-backend.vercel.app/users/get-margin', { withCredentials: true });
         console.log("Current balance:", res.data.margin);
         setBalance(res.data.margin);  
       } catch (error) {
@@ -38,7 +38,7 @@ const Funds = () => {
   const addFunds = async (updatedBalance) => {
     try {
       // Sending the updated balance to the server to save it
-      const resp = await axios.post('http://localhost:8080/users/add-funds', { updatedBalance }, { withCredentials: true });
+      const resp = await axios.post('https://trade-bazaar-backend.vercel.app/users/add-funds', { updatedBalance }, { withCredentials: true });
       console.log("New Balance Saved: ", updatedBalance);
       console.log("Response from backend: ", resp);
     } catch (error) {

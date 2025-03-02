@@ -8,7 +8,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        let user = await axios.get('http://localhost:8080/users/get-margin', { withCredentials: true });
+        let user = await axios.get('https://trade-bazaar-backend.vercel.app/users/get-margin', { withCredentials: true });
         console.log(user);
         setUserInfo(user.data.holdings.reverse());
       } catch (error) {

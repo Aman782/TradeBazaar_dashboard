@@ -14,7 +14,7 @@ const Navbar = () => {
 
           <div className='col-md-7 d-flex justify-content-evenly align-items-center'>
             {/* External Home Link */}
-            <a href='https://example.com' className='fs-5 text-decoration-none text-white' target='_blank' rel='noopener noreferrer'>
+            <a href='https://tradebazaarfrontend.vercel.app/' className='fs-5 text-decoration-none text-white' target='_blank' rel='noopener noreferrer'>
               Home <i className="fa-solid fa-house"></i>
             </a>
 

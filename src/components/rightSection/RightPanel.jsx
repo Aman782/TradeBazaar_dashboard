@@ -8,14 +8,14 @@ const RightPanel = () => {
   const [inputText, setInputText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [qty, setQty] = useState('');
-  const [price, setPrice] = useState(0); // Price fetched from API
+  const [price, setPrice] = useState(0); 
   const [currAvailableMargin, setAvailableMargin] = useState(0);
   const [username, setUsername] = useState('');
 
   useEffect(()=>{
     const fetchMargin = async()=>{
       try {     
-        const resp = await axios.get('http://localhost:8080/users/get-margin', { withCredentials: true });
+        const resp = await axios.get('https://trade-bazaar-backend.vercel.app/users/get-margin', { withCredentials: true });
         
         console.log(resp);
         setAvailableMargin(resp.data.margin);
@@ -45,7 +45,7 @@ const RightPanel = () => {
 
   const handleOnPurchase = async()=>{
     try {
-      const res = await axios.post('http://localhost:8080/users/buy-stock', {searchText, qty, price}, {withCredentials: true});
+      const res = await axios.post('https://trade-bazaar-backend.vercel.app/users/buy-stock', {searchText, qty, price}, {withCredentials: true});
       console.log(res);
       
     } catch (error) {
