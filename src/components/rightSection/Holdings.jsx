@@ -8,7 +8,6 @@ const Holdings = () => {
   const [qty, setQty] = useState(0);
   const [stockName, setStockName] = useState('');
 
-
   useEffect(() => {
     const fetchHoldingsInfo = async () => {
       try {
@@ -33,42 +32,39 @@ const Holdings = () => {
     } 
   };
 
-  const handleFetchPrice = async(stockName) =>{
-     try {
-       const url =
-           `https://api.marketstack.com/v2/eod?access_key=38778fd04543532b459d5770ed5f7983&symbols=${stockName}.XNSE`;
-         const response = await fetch(url);
-         const result = await response.json();
-         console.log(result);
-         console.log(result.data[0].close);
- 
-         setStockPrice(result.data[0].close);
-     } catch (error) {
-       console.log("API Fetch Failed!", error);
-     }
-  }
+  const handleFetchPrice = async (stockName) => {
+    try {
+      const url = `https://api.marketstack.com/v2/eod?access_key=38778fd04543532b459d5770ed5f7983&symbols=${stockName}.XNSE`;
+      const response = await axios.get(url);
+      console.log(response.data);
+      console.log(response.data.data[0].close);
 
-  const updateHoldings = async(e) =>{
+      setStockPrice(response.data.data[0].close);
+    } catch (error) {
+      console.log("API Fetch Failed!", error);
+    }
+  };
+
+  const updateHoldings = async (e) => {
     e.preventDefault();
     try {
       let selledStockMargin = qty * stockPrice;
-  
+
       const data = {
         selledStockMargin,
         stockName,
         qty,
-      }
-  
-      const updatedUserInfo = await axios.post('https://trade-bazaar-backend.vercel.app/users/stock-sell', data, {withCredentials: true});
-  
+      };
+
+      const updatedUserInfo = await axios.post('https://trade-bazaar-backend.vercel.app/users/stock-sell', data, { withCredentials: true });
+
       console.log(updatedUserInfo);
       setQty(0);
       setStockPrice(0);
     } catch (error) {
       console.log("Error In updateHoldings!", error);
     }
-  }
-
+  };
 
   return (
     <div className='container mt-4'>
@@ -91,12 +87,7 @@ const Holdings = () => {
           </div>
         ))}
       </div>
-      
 
-     
-
-      {/* //popup logic  */}
-      
       <div className='container-fluid p-3'> 
          <div className='row'>
             <div className='col-md-12'>
@@ -114,7 +105,6 @@ const Holdings = () => {
                     <div className='m-2'>
                       <button className='btn btn-dark'>Proceed To Sell</button>
                     </div>
-                  
                  </form>
             </div>
          </div>
