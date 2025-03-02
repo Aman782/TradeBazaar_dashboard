@@ -39,6 +39,7 @@ const Holdings = () => {
            `https://api.marketstack.com/v1/eod?access_key=38778fd04543532b459d5770ed5f7983&symbols=${stockName}.XNSE`;
          const response = await fetch(url);
          const result = await response.json();
+         console.log(result);
          console.log(result.data[0].close);
  
          setStockPrice(result.data[0].close);
