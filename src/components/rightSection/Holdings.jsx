@@ -6,7 +6,7 @@ const Holdings = () => {
   const [holdingsInfo, setHoldingsInfo] = useState([]);
   const [stockPrice, setStockPrice] = useState(0);
   const [qty, setQty] = useState(0);
-  const [stockName, setStockName] = useState('');
+  const [stockName, setStockName] = useState('TCS');
 
   useEffect(() => {
     const fetchHoldingsInfo = async () => {
@@ -34,14 +34,18 @@ const Holdings = () => {
 
   const handleFetchPrice = async (stockName) => {
     try {
-      const url = `https://api.marketstack.com/v2/eod?access_key=38778fd04543532b459d5770ed5f7983&symbols=${stockName}.XNSE`;
+      const apiKey = "24ONGK4WR4QUKCNX";
+      const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stockName}&apikey=${apiKey}`;
+      
       const response = await axios.get(url);
-  
       console.log(response.data); // Debugging: Check the API response structure
   
-      if (response.data.data && response.data.data.length > 0) {
-        console.log(response.data.data[0].close);
-        setStockPrice(response.data.data[0].close);
+      if (response.data["Time Series (Daily)"]) {
+        const latestDate = Object.keys(response.data["Time Series (Daily)"])[0]; // Get the latest available date
+        const closingPrice = response.data["Time Series (Daily)"][latestDate]["4. close"];
+        
+        console.log(closingPrice);
+        setStockPrice(parseFloat(closingPrice)); // Convert to number
       } else {
         console.log("No stock data available!");
       }
@@ -49,6 +53,7 @@ const Holdings = () => {
       console.log("API Fetch Failed!", error);
     }
   };
+  
   
   const updateHoldings = async (e) => {
     e.preventDefault();
