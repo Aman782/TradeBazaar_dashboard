@@ -1,20 +1,14 @@
-<<<<<<< HEAD
+
 import React from 'react';
-import LeftPanel from './components/leftSection/leftPanel';
+import LeftPanel from './components/leftSection/LeftPanel';
 import RightPanel from './components/rightSection/RightPanel';
-import { Route, Routes } from 'react-router-dom';
 import Funds from './components/rightSection/Funds';
 import Orders from './components/rightSection/Orders';
 import Holdings from './components/rightSection/Holdings';
-=======
-import React, { useState } from 'react'
-import LeftPanel from './components/leftSection/LeftPanel'
-import RightPanel from './components/rightSection/RightPanel'
+import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Funds from './components/rightSection/Funds'
-import Orders from './components/rightSection/Orders'
-import Holdings from './components/rightSection/Holdings'
->>>>>>> a92962b6e99e2ec53309460eced03f4c07d3431a
+
+
 
 const Wrapper = () => {
   return (
